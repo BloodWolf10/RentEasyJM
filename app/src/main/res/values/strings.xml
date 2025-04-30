@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">RentEasyJM</string>
+    <string name="findRentRelax">Find.Rent.Relax</string>
+    <string name="Description">Discover your perfect Getaway \n Only one click away.\n</string>
 </resources>
