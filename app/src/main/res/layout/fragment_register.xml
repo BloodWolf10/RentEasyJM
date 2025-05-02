@@ -140,7 +140,7 @@
             app:layout_constraintEnd_toEndOf="@id/googleRegister"
             />
 
-        <androidx.appcompat.widget.AppCompatButton
+        <io.writeopia.loadingbutton.customViews.CircularProgressButton
             android:id="@+id/buttonRegisterRegister"
             android:layout_width="0dp"
             android:layout_height="@dimen/mediumButtonHeight"
@@ -149,7 +149,9 @@
             app:layout_constraintStart_toStartOf="@id/guidelineRegisterLeft"
             app:layout_constraintEnd_toEndOf="@id/guidelineRegisterRight"
             android:layout_marginTop="10dp"
-            android:text="Register"/>
+            android:text="Register"
+            app:spinning_bar_color="@color/white"
+            />
 
 
 
