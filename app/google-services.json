@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "543379471665",
+    "project_id": "renteasyjm-6fb3a",
+    "storage_bucket": "renteasyjm-6fb3a.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:543379471665:android:04cab91224a1dee78e4410",
+        "android_client_info": {
+          "package_name": "com.wizinc.renteasyjm"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBpSA6qH220PIphR7GqLKQUSOMjAtE_QIk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

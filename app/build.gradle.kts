@@ -2,9 +2,10 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     id("kotlin-parcelize")
-    id("dagger.hilt.android.plugin")
+    id("com.google.dagger.hilt.android")
     id("androidx.navigation.safeargs.kotlin")
     id("kotlin-kapt")
+    alias(libs.plugins.google.gms.google.services)
 
 
 }
@@ -15,7 +16,7 @@ android {
 
     defaultConfig {
         applicationId = "com.wizinc.renteasyjm"
-        minSdk = 21
+        minSdk = 23
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
@@ -39,6 +40,10 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
+
+    buildFeatures{
+        viewBinding = true
+    }
 }
 
 dependencies {
@@ -48,6 +53,10 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+    implementation(libs.firebase.auth)
+    implementation(libs.androidx.credentials)
+    implementation(libs.androidx.credentials.play.services.auth)
+    implementation(libs.googleid)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -65,9 +74,10 @@ dependencies {
     implementation("com.airbnb.android:lottie:6.6.6")
 
     // Android KTX
-    implementation("androidx.navigation:navigation-fragment-ktx:2.4.2")
+    implementation("androidx.navigation:navigation-fragment-ktx:2.8.9")
 
     // Dagger Hilt
-    implementation("com.google.dagger:hilt-android:2.38.1")
-    kapt("com.google.dagger:hilt-compiler:2.38.1")
+    implementation("com.google.dagger:hilt-android:2.56.2")
+    kapt("com.google.dagger:hilt-compiler:2.56.2")
+
 }
