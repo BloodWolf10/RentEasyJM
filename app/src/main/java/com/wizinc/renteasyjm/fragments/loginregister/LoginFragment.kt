@@ -10,10 +10,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
 import com.wizinc.renteasyjm.R
 import com.wizinc.renteasyjm.activities.RentalActivity
 import com.wizinc.renteasyjm.databinding.FragmentLoginBinding
 import com.wizinc.renteasyjm.databinding.FragmentRegisterBinding
+import com.wizinc.renteasyjm.dialog.setupBottomSheetDialog
 import com.wizinc.renteasyjm.util.Resource
 import com.wizinc.renteasyjm.viewmodel.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -49,6 +51,32 @@ class LoginFragment: Fragment(R.layout.fragment_login) {
             }
         }
 
+        binding.tvForgotPasswordLogin.setOnClickListener {
+            setupBottomSheetDialog { email ->
+                viewModel.resetPassword(email)
+            }
+        }
+
+        lifecycleScope.launchWhenStarted {
+            viewModel.resetPassword.collect{
+                when (it) {
+                    is Resource.Loading -> {
+
+                    }
+
+                    is Resource.Success -> {
+                        Snackbar.make(requireView(), "Reset link was sent to your email", Snackbar.LENGTH_LONG).show()
+                    }
+
+                    is Resource.Error -> {
+                        Snackbar.make(requireView(), "Error: ${it.message}", Snackbar.LENGTH_LONG).show()
+                    }
+
+                    else -> Unit
+                }
+            }
+        }
+
         lifecycleScope.launchWhenStarted {
             viewModel.login.collect {
                 when (it) {
@@ -62,6 +90,7 @@ class LoginFragment: Fragment(R.layout.fragment_login) {
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
                             startActivity(intent)
                         }
+
                     }
 
                     is Resource.Error -> {
