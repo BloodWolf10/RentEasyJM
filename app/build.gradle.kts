@@ -74,11 +74,16 @@ dependencies {
     // Lottie
     implementation("com.airbnb.android:lottie:6.6.6")
 
-    // Android KTX
+    // Android KTX Navigation
+    implementation("androidx.navigation:navigation-ui-ktx:2.8.9")
     implementation("androidx.navigation:navigation-fragment-ktx:2.8.9")
 
     // Dagger Hilt
     implementation("com.google.dagger:hilt-android:2.56.2")
     kapt("com.google.dagger:hilt-compiler:2.56.2")
+
+
+
+
 
 }
