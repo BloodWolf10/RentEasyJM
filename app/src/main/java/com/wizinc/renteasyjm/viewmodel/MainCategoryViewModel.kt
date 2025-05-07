@@ -18,8 +18,16 @@ class MainCategoryViewModel @Inject constructor(
     private val _specialRentals = MutableStateFlow<Resource<List<Rental>>>(Resource.Unspecified())
     val specialRentals: StateFlow<Resource<List<Rental>>> = _specialRentals
 
+    private val _bestDealRentals = MutableStateFlow<Resource<List<Rental>>>(Resource.Unspecified())
+    val bestDealRentals: StateFlow<Resource<List<Rental>>> = _bestDealRentals
+
+    private val _bestRentals = MutableStateFlow<Resource<List<Rental>>>(Resource.Unspecified())
+    val bestRentals: StateFlow<Resource<List<Rental>>> = _bestRentals
+
     init {
         fetchSpecialRentals()
+        fetchBestDeals()
+        fetchBestRentals()
     }
 
     fun fetchSpecialRentals(){
@@ -35,6 +43,41 @@ class MainCategoryViewModel @Inject constructor(
             }.addOnFailureListener {
                 viewModelScope.launch {
                     _specialRentals.emit(Resource.Error(it.message.toString()))
+                }
+            }
+    }
+
+    fun fetchBestDeals(){
+        viewModelScope.launch {
+            _bestDealRentals.emit(Resource.Loading())
+        }
+        firestore.collection("properties")
+            .whereEqualTo("category", "Home").get()
+            .addOnSuccessListener { result ->
+                val bestDealRentals = result.toObjects(Rental::class.java)
+                viewModelScope.launch {
+                    _bestDealRentals.emit(Resource.Success(bestDealRentals))
+                    }
+                }.addOnFailureListener {
+                    viewModelScope.launch {
+                        _bestDealRentals.emit(Resource.Error(it.message.toString()))
+                    }
+                }
+    }
+
+    fun fetchBestRentals(){
+        viewModelScope.launch {
+            _bestRentals.emit(Resource.Loading())
+        }
+        firestore.collection("properties").get()
+            .addOnSuccessListener { result ->
+                val bestRentals = result.toObjects(Rental::class.java)
+                viewModelScope.launch {
+                    _bestRentals.emit(Resource.Success(bestRentals))
+                }
+            }.addOnFailureListener {
+                viewModelScope.launch {
+                    _bestRentals.emit(Resource.Error(it.message.toString()))
                 }
             }
     }
