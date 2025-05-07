@@ -40,7 +40,7 @@ class MainCategoryFragment : Fragment(R.layout.fragment_main_category) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupBestDealsRv()
+        setupSpecialRentalsRv()
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -74,7 +74,7 @@ class MainCategoryFragment : Fragment(R.layout.fragment_main_category) {
         binding.MainCategoryProgressbar.visibility = View.VISIBLE
     }
 
-    private fun setupBestDealsRv() {
+    private fun setupSpecialRentalsRv() {
         specialRentalAdapter = SpecialRentalsAdapter()
         binding.rvSpecialRentals.apply {
             layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
