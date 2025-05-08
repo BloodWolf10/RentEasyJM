@@ -11,7 +11,7 @@ import com.bumptech.glide.Glide
 import com.wizinc.renteasyjm.data.Rental
 import com.wizinc.renteasyjm.databinding.RentalRvItemBinding
 
-class BestRentalAdapter: RecyclerView.Adapter<BestRentalAdapter.BestRentalsViewHolder>() {
+class BestRentalsAdapter: RecyclerView.Adapter<BestRentalsAdapter.BestRentalsViewHolder>() {
     inner class BestRentalsViewHolder(private val binding: RentalRvItemBinding): RecyclerView.ViewHolder(binding.root){
         fun bind(rental: Rental){
             binding.apply {

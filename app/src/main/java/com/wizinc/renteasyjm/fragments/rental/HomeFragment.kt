@@ -10,7 +10,6 @@ import com.wizinc.renteasyjm.R
 import com.wizinc.renteasyjm.adapters.HomeViewpagerAdapter
 import com.wizinc.renteasyjm.databinding.FragmentHomeBinding
 import com.wizinc.renteasyjm.fragments.categories.ApartmentFragment
-import com.wizinc.renteasyjm.fragments.categories.BusinessFragment
 import com.wizinc.renteasyjm.fragments.categories.IndustrialFragment
 import com.wizinc.renteasyjm.fragments.categories.MainCategoryFragment
 import com.wizinc.renteasyjm.fragments.categories.OtherFragment
@@ -34,7 +33,7 @@ class HomeFragment: Fragment(R.layout.fragment_home)  {
 
         val categoriesFragment = arrayListOf<Fragment>(
             MainCategoryFragment(),
-            BusinessFragment(),
+            ApartmentFragment(),
             ApartmentFragment(),
             IndustrialFragment(),
             OtherFragment(),
