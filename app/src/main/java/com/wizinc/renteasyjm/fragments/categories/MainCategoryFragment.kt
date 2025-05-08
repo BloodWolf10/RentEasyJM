@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.wizinc.renteasyjm.R
 import com.wizinc.renteasyjm.adapters.BestDealsAdapter
-import com.wizinc.renteasyjm.adapters.BestRentalAdapter
+import com.wizinc.renteasyjm.adapters.BestRentalsAdapter
 import com.wizinc.renteasyjm.adapters.SpecialRentalsAdapter
 import com.wizinc.renteasyjm.databinding.FragmentMainCategoryBinding
 import com.wizinc.renteasyjm.util.Resource
@@ -32,7 +32,7 @@ class MainCategoryFragment : Fragment() { // Removed the redundant layout ID fro
     private val binding get() = _binding!! //  NotNull delegate for binding
     private lateinit var specialRentalAdapter: SpecialRentalsAdapter
     private lateinit var bestDealsAdapter: BestDealsAdapter
-    private lateinit var bestRentalsAdapter: BestRentalAdapter
+    private lateinit var bestRentalsAdapter: BestRentalsAdapter
     private val viewModel: MainCategoryViewModel by viewModels()
 
     override fun onCreateView(
@@ -134,7 +134,7 @@ class MainCategoryFragment : Fragment() { // Removed the redundant layout ID fro
     }
 
     private fun setupBestRentalsRv() {
-        bestRentalsAdapter = BestRentalAdapter()
+        bestRentalsAdapter = BestRentalsAdapter()
         binding.rvBestRentals.apply {
             layoutManager = GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false)
             adapter = bestRentalsAdapter
