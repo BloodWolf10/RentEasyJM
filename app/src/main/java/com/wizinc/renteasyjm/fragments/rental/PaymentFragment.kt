@@ -43,6 +43,11 @@ class PaymentFragment: Fragment(R.layout.fragment_payment)  {
 
         setupCartRv()
 
+        binding.imageCloseCart.setOnClickListener()
+        {
+            findNavController().navigateUp()
+        }
+
         var totalPrice = 0f
 
         lifecycleScope.launchWhenStarted {
