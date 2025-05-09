@@ -36,7 +36,11 @@
         android:id="@+id/profileFragment"
         android:name="com.wizinc.renteasyjm.fragments.rental.ProfileFragment"
         android:label="ProfileFragment"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_profileFragment_to_addressFragment"
+            app:destination="@id/addressFragment" />
+    </fragment>
     <fragment
         android:id="@+id/rentalDetailsFragment"
         android:name="com.wizinc.renteasyjm.fragments.shopping.RentalDetailsFragment"
@@ -45,5 +49,10 @@
         <argument
             android:name="rental"
             app:argType="com.wizinc.renteasyjm.data.Rental" />
-    </fragment>/>
+    </fragment>
+    <fragment
+        android:id="@+id/addressFragment"
+        android:name="com.wizinc.renteasyjm.fragments.shopping.AddressFragment"
+        android:label="AddressFragment"
+        tools:layout="@layout/fragment_address"/>/>
 </navigation>
