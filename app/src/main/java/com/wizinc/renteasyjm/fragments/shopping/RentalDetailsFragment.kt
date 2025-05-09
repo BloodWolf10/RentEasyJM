@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,10 +16,16 @@ import com.wizinc.renteasyjm.activities.RentalActivity
 import com.wizinc.renteasyjm.adapters.ColorsAdapter
 import com.wizinc.renteasyjm.adapters.SizesAdapter
 import com.wizinc.renteasyjm.adapters.ViewPager2Images
+import com.wizinc.renteasyjm.data.CartRental
 import com.wizinc.renteasyjm.data.Rental
 import com.wizinc.renteasyjm.databinding.FragmentRentalDetailsBinding
+import com.wizinc.renteasyjm.util.Resource
 import com.wizinc.renteasyjm.util.hideBottomNavigationView
+import com.wizinc.renteasyjm.viewmodel.DetailsViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 
+@AndroidEntryPoint
 class RentalDetailsFragment: Fragment() {
 
     private val args by navArgs<RentalDetailsFragmentArgs>()
@@ -25,6 +33,7 @@ class RentalDetailsFragment: Fragment() {
     private val viewpagerAdapter by lazy {ViewPager2Images()}
     private val sizesAdapter by lazy { SizesAdapter() }
     private val colorsAdapter by lazy { ColorsAdapter() }
+    private val viewModel by viewModels<DetailsViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,6 +57,35 @@ class RentalDetailsFragment: Fragment() {
         binding.closeIcon.setOnClickListener {
             findNavController().navigateUp()
         }
+
+        binding.buttonAddToCart.setOnClickListener {
+            viewModel.addUpdatePropertyInCart(CartRental(rental, 1))
+        }
+
+        lifecycleScope.launchWhenStarted {
+            viewModel.addToCart.collectLatest {
+                when (it) {
+                    is Resource.Loading -> {
+                        binding.buttonAddToCart.startAnimation()
+                    }
+
+                    is Resource.Success -> {
+                        binding.buttonAddToCart.revertAnimation()
+                        binding.buttonAddToCart.setBackgroundColor(resources.getColor(R.color.black))
+                    }
+
+                    is Resource.Error -> {
+                        binding.buttonAddToCart.stopAnimation()
+                        binding.buttonAddToCart.setBackgroundColor(resources.getColor(R.color.black))
+                    }
+
+                    else -> Unit
+
+                }
+
+            }
+        }
+
 
         binding.apply {
             tvRentalName.text = rental.name
