@@ -72,5 +72,10 @@
         <argument
             android:name="rental"
             app:argType="com.wizinc.renteasyjm.data.CartRental[]" />
-    </fragment>/>
+    </fragment>
+    <fragment
+        android:id="@+id/userAccountFragment"
+        android:name="com.wizinc.renteasyjm.fragments.settings.UserAccountFragment"
+        android:label="UserAccountFragment"
+        tools:layout="@layout/fragment_user_account"/>
 </navigation>
