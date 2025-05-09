@@ -10,18 +10,22 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.wizinc.renteasyjm.data.Rental
 import com.wizinc.renteasyjm.databinding.RentalRvItemBinding
+import com.wizinc.renteasyjm.helper.getRentalPrice
 
 class BestRentalsAdapter: RecyclerView.Adapter<BestRentalsAdapter.BestRentalsViewHolder>() {
     inner class BestRentalsViewHolder(private val binding: RentalRvItemBinding): RecyclerView.ViewHolder(binding.root){
         fun bind(rental: Rental){
             binding.apply {
                 Glide.with(itemView).load(rental.imageUrls[0]).into(imgRental)
-                rental.offerPercentage?.let {
-                    val remainingPricePercentage = 1f - it
-                    val priceAfterOffer = remainingPricePercentage * rental.price!!
+
+                    val priceAfterOffer = rental.price?.let {
+                        rental.offerPercentage.getRentalPrice(
+                            it
+                        )
+                    }
                     tvNewPrice.text = "${String.format("%.2f",priceAfterOffer)}"
                     tvPrice.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
-                }
+
                 if(rental.offerPercentage == null)
                     tvPrice.visibility = View.INVISIBLE
                 tvPrice.text = "${rental.price}"
