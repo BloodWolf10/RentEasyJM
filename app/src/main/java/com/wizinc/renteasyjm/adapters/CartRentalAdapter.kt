@@ -27,17 +27,17 @@ class CartRentalAdapter : RecyclerView.Adapter<CartRentalAdapter.CartRentalsHold
                         .load(imageUrl)
                         .placeholder(R.drawable.placeholder_image)  // Shown while loading
                         .error(R.drawable.error_image)              // Shown on load failure
-                        .into(imageCartProduct)
+                        .into(imageCartRental)
                 } else {
                     Log.d("SpecialRentalsAdapter", "No image available for: ${cartRental.rental.name}")
                     Glide.with(itemView)
                         .load(R.drawable.placeholder_image)
-                        .into(imageCartProduct)
+                        .into(imageCartRental)
                 }
 
                 // Set name and formatted price
-                tvProductCartName.text = cartRental.rental.name
-                tvProductCartPrice.text = "$${String.format("%.2f", cartRental.rental.price ?: 0f)}"
+                tvRentalCartName.text = cartRental.rental.name
+                tvRentalCartName.text = "$${String.format("%.2f", cartRental.rental.price ?: 0f)}"
 
 
                 val priceAfterPercentage = cartRental.rental.price.let {
@@ -46,7 +46,7 @@ class CartRentalAdapter : RecyclerView.Adapter<CartRentalAdapter.CartRentalsHold
                     )
                 }
 
-                tvProductCartPrice.text = "$${String.format("%.2f", priceAfterPercentage)}"
+                tvRentalCartPrice.text = "$${String.format("%.2f", priceAfterPercentage)}"
             }
         }
 
