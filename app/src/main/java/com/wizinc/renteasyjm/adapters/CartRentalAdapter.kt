@@ -40,7 +40,7 @@ class CartRentalAdapter : RecyclerView.Adapter<CartRentalAdapter.CartRentalsHold
                 tvProductCartPrice.text = "$${String.format("%.2f", cartRental.rental.price ?: 0f)}"
 
 
-                val priceAfterPercentage = cartRental.rental.price?.let {
+                val priceAfterPercentage = cartRental.rental.price.let {
                     cartRental.rental.offerPercentage.getRentalPrice(
                         it
                     )
