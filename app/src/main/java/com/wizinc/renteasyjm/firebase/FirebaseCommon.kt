@@ -33,7 +33,7 @@ class FirebaseCommon(
             val document = transaction.get(documentRef)
             val rental = document.toObject(CartRental::class.java)
             rental?.let { cartRental ->
-                val newDuration = cartRental.quantity + 1 // Assuming 'quantity' means rental days
+                val newDuration = cartRental.quantity + 1
                 val updatedRental = cartRental.copy(quantity = newDuration)
                 transaction.set(documentRef, updatedRental)
             }
@@ -42,6 +42,29 @@ class FirebaseCommon(
         }.addOnFailureListener { e ->
             onResult(null, e)
         }
+    }
+
+
+    fun decreaseRentalDuration(documentId: String, onResult: (String?, Exception?) -> Unit) {
+        firestore.runTransaction { transaction ->
+            val documentRef = cartCollection.document(documentId)
+            val document = transaction.get(documentRef)
+            val rental = document.toObject(CartRental::class.java)
+            rental?.let { cartRental ->
+                val newDuration = cartRental.quantity - 1
+                val updatedRental = cartRental.copy(quantity = newDuration)
+                transaction.set(documentRef, updatedRental)
+            }
+        }.addOnSuccessListener {
+            onResult("Rental 30 days duration successfully increased.", null)
+        }.addOnFailureListener { e ->
+            onResult(null, e)
+        }
+    }
+
+
+    enum class QuantityChanging {
+        INCREASE, DECREASE
     }
 
 }
