@@ -1,7 +1,6 @@
 package com.wizinc.renteasyjm.helper
 
 fun Float?.getRentalPrice(price: Float): Float{
-    //this --> Percentage
 
     if(this == null)
         return price

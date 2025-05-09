@@ -6,14 +6,20 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.DocumentId
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.wizinc.renteasyjm.data.CartRental
 import com.wizinc.renteasyjm.firebase.FirebaseCommon
+import com.wizinc.renteasyjm.helper.getRentalPrice
 import com.wizinc.renteasyjm.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -27,9 +33,43 @@ class CartViewModel @Inject constructor(
     private val _cartData = MutableStateFlow<Resource<List<CartRental>>>(Resource.Unspecified())
     val cartData = _cartData.asStateFlow()
 
+
+
     private var cartRentalData = emptyList<DocumentSnapshot>()
 
+    val rentalPrice = cartData.map{
+        when(it){
+            is Resource.Success ->{
+                calculateRentalPrice(it.data!!)
+            }
+            else -> null
 
+        }
+    }
+
+
+    private val _deleteDialog = MutableSharedFlow<CartRental>()
+    val deleteDialog = _deleteDialog.asSharedFlow()
+
+
+  fun deleteCartRentalItem(cartRental: CartRental){
+
+      val index = cartData.value.data?.indexOf(cartRental)
+      val documentId = cartRentalData[index!!].id
+
+      firestore.collection("user").document(auth.uid!!).collection("cart").document(documentId).delete()
+
+  }
+
+
+
+    private fun calculateRentalPrice(data: List<CartRental>): Float? {
+
+        return data.sumByDouble { cartRental ->
+            (cartRental.rental.offerPercentage.getRentalPrice(cartRental.rental.price) * cartRental.quantity).toDouble()
+        }.toFloat()
+
+    }
 
 
     init {
@@ -60,6 +100,7 @@ class CartViewModel @Inject constructor(
         quantityChanging: FirebaseCommon.QuantityChanging
     ) {
 
+
         val index = cartData.value.data?.indexOf(cartRental)
 
         /**
@@ -77,6 +118,11 @@ class CartViewModel @Inject constructor(
             }
 
                 FirebaseCommon.QuantityChanging.DECREASE -> {
+                    if (cartRental.quantity == 1) {
+                        viewModelScope.launch { _deleteDialog.emit(cartRental) }
+                        return
+                    }
+                    viewModelScope.launch { _cartData.emit(Resource.Loading()) }
                     decreaseRentalDuration(documentId)
                 }
             }
