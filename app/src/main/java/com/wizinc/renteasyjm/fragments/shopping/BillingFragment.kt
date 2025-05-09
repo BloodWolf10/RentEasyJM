@@ -1,5 +1,6 @@
 package com.wizinc.renteasyjm.fragments.shopping
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,14 +13,19 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import com.wizinc.renteasyjm.R
 import com.wizinc.renteasyjm.adapters.AddressAdapter
 import com.wizinc.renteasyjm.adapters.BillingRentalsAdapter
+import com.wizinc.renteasyjm.data.Address
 import com.wizinc.renteasyjm.data.CartRental
+import com.wizinc.renteasyjm.data.DownPayment
+import com.wizinc.renteasyjm.data.DownPaymentStatus
 import com.wizinc.renteasyjm.databinding.FragmentBillingBinding
 import com.wizinc.renteasyjm.util.HorizantalItemDecoration
 import com.wizinc.renteasyjm.util.Resource
 import com.wizinc.renteasyjm.viewmodel.BillingViewModel
+import com.wizinc.renteasyjm.viewmodel.DownPaymentViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 
@@ -29,10 +35,13 @@ class BillingFragment : Fragment(){
     private lateinit var binding: FragmentBillingBinding
     private val addressAdapter by lazy { AddressAdapter() }
     private val billingRentalsAdapter by lazy { BillingRentalsAdapter() }
-    private val  viewModel by viewModels<BillingViewModel>()
+    private val  billingviewModel by viewModels<BillingViewModel>()
     private val args by navArgs<BillingFragmentArgs>()
     private var totalPrice = 0f
     private var rentals = emptyList<CartRental>()
+
+    private var selectedAddress: Address? = null
+    private val downpaymentViewModel by viewModels<DownPaymentViewModel>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -67,7 +76,7 @@ class BillingFragment : Fragment(){
         }
 
         lifecycleScope.launchWhenStarted {
-            viewModel.address.collectLatest {
+            billingviewModel.address.collectLatest {
                 when(it){
 
                     is Resource.Loading -> {
@@ -91,8 +100,73 @@ class BillingFragment : Fragment(){
             }
         }
 
+        lifecycleScope.launchWhenStarted {
+            downpaymentViewModel.downPayment.collectLatest {
+                when(it){
+
+                    is Resource.Loading -> {
+                        binding.buttonPlaceOrder.startAnimation()
+                    }
+
+                    is Resource.Success -> {
+                        binding.buttonPlaceOrder.revertAnimation()
+                        findNavController().navigateUp()
+                        Snackbar.make(requireView(), "Your DownPayment was placed", Snackbar.LENGTH_LONG).show()
+                    }
+
+                    is Resource.Error -> {
+                        binding.buttonPlaceOrder.revertAnimation()
+                        Toast.makeText(requireContext(), "Error ${it.message}", Toast.LENGTH_SHORT).show()
+                    }
+
+                    else -> Unit
+
+
+                }
+            }
+        }
+
+
         billingRentalsAdapter.differ.submitList(rentals)
         binding.tvTotalPrice.text = "$ $totalPrice"
+
+        addressAdapter.onClick = {
+            selectedAddress = it
+        }
+
+        binding.buttonPlaceOrder.setOnClickListener{
+
+            if(selectedAddress == null){
+                Toast.makeText(requireContext(), "Please select and address", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            showPaymentConfirmationDialog()
+
+        }
+    }
+
+    private fun showPaymentConfirmationDialog() {
+        val alertDialog = AlertDialog.Builder(requireContext()).apply {
+            setTitle("Property Down Payments")
+            setMessage("Do you want to place a down payment for  your cart items?")
+            setNegativeButton("Cancel") { dialog, _ ->
+                dialog.dismiss()
+            }
+            setPositiveButton("Yes") { dialog, _ ->
+                val downpayment = DownPayment(
+                    DownPaymentStatus.Paid.status,
+                    totalPrice,
+                    rentals,
+                    selectedAddress!!
+                )
+                downpaymentViewModel.placeOrder(downpayment)
+                dialog.dismiss()
+            }
+
+        }
+
+        alertDialog.create()
+        alertDialog.show()
     }
 
     private fun setupBillingRentalsRv() {
