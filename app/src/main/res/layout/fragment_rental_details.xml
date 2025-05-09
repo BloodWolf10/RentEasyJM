@@ -78,6 +78,7 @@
             android:textColor="@color/g_gray700"
             android:textSize="12sp"
             android:textStyle="bold"
+            android:paddingLeft="10dp"
             android:text="Description of content"
             tools:ignore="MissingConstraints" />
 
@@ -157,7 +158,7 @@
             app:layout_constraintEnd_toEndOf="@id/linearRentalReferences"
             android:layout_marginTop="45dp"
             android:layout_marginBottom="20dp"
-            android:text="Add to Cart"
+            android:text="Make Downpayment"
             app:spinning_bar_color="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"/>
 

@@ -11,6 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.wizinc.renteasyjm.R
@@ -19,6 +20,7 @@ import com.wizinc.renteasyjm.adapters.BestRentalsAdapter
 import com.wizinc.renteasyjm.adapters.SpecialRentalsAdapter
 import com.wizinc.renteasyjm.databinding.FragmentMainCategoryBinding
 import com.wizinc.renteasyjm.util.Resource
+import com.wizinc.renteasyjm.util.showBottomNavigationView
 import com.wizinc.renteasyjm.viewmodel.MainCategoryViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -51,6 +53,22 @@ class MainCategoryFragment : Fragment() { // Removed the redundant layout ID fro
         setupBestRentalsRv()
         setupBestDealsRv()
         observeViewModel() //Extract observation to its own method.
+
+
+        specialRentalAdapter.onClick = {
+            val b = Bundle().apply { putParcelable("rental", it) }
+           findNavController().navigate(R.id.action_homeFragment_to_rentalDetailsFragment, b)
+        }
+
+        bestRentalsAdapter.onClick = {
+            val b = Bundle().apply { putParcelable("rental", it) }
+            findNavController().navigate(R.id.action_homeFragment_to_rentalDetailsFragment, b)
+        }
+
+        bestDealsAdapter.onClick = {
+            val b = Bundle().apply { putParcelable("rental", it) }
+            findNavController().navigate(R.id.action_homeFragment_to_rentalDetailsFragment, b)
+        }
     }
 
     private fun observeViewModel() {
@@ -160,5 +178,10 @@ class MainCategoryFragment : Fragment() { // Removed the redundant layout ID fro
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null // Clear binding to prevent memory leaks
+    }
+
+    override fun onResume() {
+        super.onResume()
+        showBottomNavigationView()
     }
 }

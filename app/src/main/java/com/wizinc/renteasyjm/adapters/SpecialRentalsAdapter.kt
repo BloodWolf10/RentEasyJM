@@ -63,6 +63,10 @@ class SpecialRentalsAdapter : RecyclerView.Adapter<SpecialRentalsAdapter.Special
     override fun onBindViewHolder(holder: SpecialRentalsHolder, position: Int) {
         val rental = differ.currentList[position]
         holder.bind(rental)
+
+        holder.itemView.setOnClickListener {
+            onClick?.invoke(rental)
+        }
     }
 
     override fun getItemCount(): Int = differ.currentList.size
@@ -70,4 +74,6 @@ class SpecialRentalsAdapter : RecyclerView.Adapter<SpecialRentalsAdapter.Special
     fun submitList(list: List<Rental>) {
         differ.submitList(list)
     }
+
+    var onClick: ((Rental) -> Unit)? = null
 }

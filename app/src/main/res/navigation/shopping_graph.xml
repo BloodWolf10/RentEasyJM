@@ -9,20 +9,41 @@
         android:id="@+id/homeFragment"
         android:name="com.wizinc.renteasyjm.fragments.rental.HomeFragment"
         android:label="HomeFragment"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_rentalDetailsFragment"
+            app:destination="@id/rentalDetailsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/interestedFragment"
         android:name="com.wizinc.renteasyjm.fragments.rental.InterestedFragment"
         android:label="InterestedFragment"
-        tools:layout="@layout/fragment_interested" />
+        tools:layout="@layout/fragment_interested" >
+        <action
+            android:id="@+id/action_interestedFragment_to_rentalDetailsFragment"
+            app:destination="@id/rentalDetailsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/paymentFragment"
         android:name="com.wizinc.renteasyjm.fragments.rental.PaymentFragment"
         android:label="PaymentFragment"
-        tools:layout="@layout/fragment_payment" />
+        tools:layout="@layout/fragment_payment" >
+        <action
+            android:id="@+id/action_paymentFragment_to_rentalDetailsFragment"
+            app:destination="@id/rentalDetailsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.wizinc.renteasyjm.fragments.rental.ProfileFragment"
         android:label="ProfileFragment"
         tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/rentalDetailsFragment"
+        android:name="com.wizinc.renteasyjm.fragments.shopping.RentalDetailsFragment"
+        android:label="RentalDetailsFragment"
+        tools:layout="@layout/fragment_rental_details" >
+        <argument
+            android:name="rental"
+            app:argType="com.wizinc.renteasyjm.data.Rental" />
+    </fragment>/>
 </navigation>

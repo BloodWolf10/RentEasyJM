@@ -50,9 +50,15 @@ class BestDealsAdapter: RecyclerView.Adapter<BestDealsAdapter.BestDealsViewHolde
     override fun onBindViewHolder(holder: BestDealsViewHolder, position: Int){
         val rental = differ.currentList[position]
         holder.bind(rental)
+
+        holder.itemView.setOnClickListener {
+            onClick?.invoke(rental)
+        }
     }
 
     override fun getItemCount(): Int{
         return differ.currentList.size
     }
+
+    var onClick: ((Rental) -> Unit)? = null
 }
