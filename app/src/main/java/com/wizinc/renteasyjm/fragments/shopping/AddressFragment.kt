@@ -70,7 +70,13 @@ class AddressFragment: Fragment(){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
+
         binding.apply {
+
+           imageAddressClose.setOnClickListener {
+                findNavController().navigateUp()
+            }
 
             buttonSave.setOnClickListener {
                 val addressTitle = edAddressTitle.text.toString()

@@ -31,6 +31,9 @@
         <action
             android:id="@+id/action_paymentFragment_to_rentalDetailsFragment"
             app:destination="@id/rentalDetailsFragment" />
+        <action
+            android:id="@+id/action_paymentFragment_to_billingFragment"
+            app:destination="@id/billingFragment" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
@@ -54,5 +57,20 @@
         android:id="@+id/addressFragment"
         android:name="com.wizinc.renteasyjm.fragments.shopping.AddressFragment"
         android:label="AddressFragment"
-        tools:layout="@layout/fragment_address"/>/>
+        tools:layout="@layout/fragment_address"/>
+    <fragment
+        android:id="@+id/billingFragment"
+        android:name="com.wizinc.renteasyjm.fragments.shopping.BillingFragment"
+        android:label="BillingFragment"
+        tools:layout="@layout/fragment_billing">
+        <action
+            android:id="@+id/action_billingFragment_to_addressFragment"
+            app:destination="@id/addressFragment" />
+        <argument
+            android:name="totalPrice"
+            app:argType="float" />
+        <argument
+            android:name="rental"
+            app:argType="com.wizinc.renteasyjm.data.CartRental[]" />
+    </fragment>/>
 </navigation>

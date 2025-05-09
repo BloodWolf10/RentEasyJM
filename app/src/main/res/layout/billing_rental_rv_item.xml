@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:backgroundTint="@color/g_white"
     app:cardElevation="0dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent">
 
         <View
-            android:id="@+id/line"
+            android:id="@+id/topLine"
             android:layout_width="0dp"
             android:layout_height="1dp"
             android:layout_marginTop="10dp"
@@ -25,14 +25,14 @@
             android:layout_width="80dp"
             android:layout_height="75dp"
             android:layout_marginBottom="5dp"
-            app:layout_constraintBottom_toTopOf="@+id/line"
+            app:layout_constraintBottom_toTopOf="@+id/topLine"
             app:layout_constraintStart_toStartOf="parent"
             android:scaleType="centerCrop"
             android:src="@color/g_blue"/>
 
         <TextView
             android:id="@+id/tv_rental_cart_name"
-            android:layout_width="180dp"
+            android:layout_width="140dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
@@ -42,9 +42,8 @@
             android:textSize="15sp"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@id/image_cart_rental"
-            app:layout_constraintTop_toTopOf="@id/image_cart_rental"/>
-
-
+            app:layout_constraintTop_toTopOf="@id/image_cart_rental"
+            android:lines="1" />
 
 
 
@@ -59,46 +58,6 @@
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@id/tv_rental_cart_name"
             app:layout_constraintTop_toBottomOf="@id/tv_rental_cart_name"/>
-
-
-
-        <ImageView
-            android:id="@+id/imagePlus"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginBottom="5dp"
-            android:src="@drawable/ic_plus"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
-
-        <ImageView
-            android:id="@+id/imageMinus"
-            android:layout_width="18dp"
-            android:layout_height="18dp"
-            android:layout_marginBottom="5dp"
-            android:src="@drawable/ic_minus"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="5dp"
-            android:layout_marginEnd="1dp"
-            app:layout_constraintEnd_toEndOf="parent"/>
-
-
-
-
-
-        <TextView
-            android:id="@+id/tvCartProductQuantity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="1"
-            app:layout_constraintTop_toBottomOf="@id/imageMinus"
-            app:layout_constraintEnd_toEndOf="@id/imageMinus"
-            app:layout_constraintBottom_toTopOf="@id/imagePlus"
-            app:layout_constraintStart_toStartOf="@id/imagePlus"/>
-
-
-
-
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/imageCartProductColor"
@@ -131,6 +90,16 @@
             app:layout_constraintTop_toTopOf="@id/imageCartProductSize"
             app:layout_constraintStart_toStartOf="@id/imageCartProductSize"
             app:layout_constraintEnd_toEndOf="@id/imageCartProductSize"/>
+
+        <TextView
+            android:id="@+id/tvBillingProductQuantity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:text="1"
+            android:layout_marginEnd="5dp"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
