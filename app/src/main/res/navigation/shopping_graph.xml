@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/shopping_graph"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/PaymentsFragment">
 
     <fragment
         android:id="@+id/homeFragment"
@@ -82,5 +82,18 @@
         android:id="@+id/PaymentsFragment"
         android:name="com.wizinc.renteasyjm.fragments.settings.PaymentsFragment"
         android:label="PaymentsFragment"
-        tools:layout="@layout/fragment_payments"/>
+        tools:layout="@layout/fragment_payments">
+        <action
+            android:id="@+id/action_PaymentsFragment_to_paymentDetailsFragment"
+            app:destination="@id/paymentDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/paymentDetailsFragment"
+        android:name="com.wizinc.renteasyjm.fragments.settings.PaymentDetailsFragment"
+        android:label="PaymentDetailsFragment"
+        tools:layout="@layout/fragment_payment_detail">
+        <argument
+            android:name="payment"
+            app:argType="com.wizinc.renteasyjm.data.DownPayment" />
+    </fragment>
 </navigation>
