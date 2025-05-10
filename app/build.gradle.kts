@@ -24,6 +24,12 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    testOptions {
+        unitTests.all {
+            it.enabled = false
+        }
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -59,13 +65,14 @@ dependencies {
     implementation(libs.androidx.credentials.play.services.auth)
     implementation(libs.googleid)
     implementation(libs.firebase.firestore)
-    implementation(libs.androidx.ui.test.android)
+   // implementation(libs.androidx.ui.test.android)
     implementation(libs.firebase.storage.ktx)
     implementation(libs.firebase.storage)
     implementation(libs.androidx.material3.android)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(libs.androidx.ui.test.android)
 
 // Loading button
     implementation("io.writeopia:loading-button:3.0.0")

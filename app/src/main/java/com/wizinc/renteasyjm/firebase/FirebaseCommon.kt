@@ -1,7 +1,7 @@
 package com.wizinc.renteasyjm.firebase
 
 import android.util.Log
-import androidx.compose.ui.test.isSelected
+
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.wizinc.renteasyjm.data.CartRental
