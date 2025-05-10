@@ -9,3 +9,16 @@ sealed class DownPaymentStatus(val status: String)  {
     object GracePeriod : DownPaymentStatus("GracePeriod")
     object Refunded : DownPaymentStatus("Refunded")
 }
+
+
+fun getDownPaymentStatus(status: String): DownPaymentStatus{
+
+    return when (status) {
+      "Paid" -> { DownPaymentStatus.Paid}
+        "Pending" -> { DownPaymentStatus.Pending}
+      "Defaulted" -> { DownPaymentStatus.Defaulted}
+        "GracePeriod" -> { DownPaymentStatus.GracePeriod}
+      "Refunded" -> { DownPaymentStatus.Refunded}
+        else -> DownPaymentStatus.Cancelled
+    }
+}

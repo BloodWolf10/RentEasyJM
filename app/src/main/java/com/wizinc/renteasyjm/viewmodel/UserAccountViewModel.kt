@@ -6,6 +6,7 @@ import android.graphics.ImageDecoder
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.cloudinary.Cloudinary
@@ -97,7 +98,10 @@ class UserAccountViewModel @Inject constructor(
     private fun saveUserInformationWithNewImage(user: User, imageUri: Uri) {
         viewModelScope.launch {
             try {
-                val contentResolver = getApplication<RentEasyApplication>().contentResolver
+                val context = getApplication<RentEasyApplication>()
+                val contentResolver = context.contentResolver
+
+                // Decode the image from URI
                 val bitmap = if (Build.VERSION.SDK_INT < 28) {
                     MediaStore.Images.Media.getBitmap(contentResolver, imageUri)
                 } else {
@@ -105,17 +109,33 @@ class UserAccountViewModel @Inject constructor(
                     ImageDecoder.decodeBitmap(source)
                 }
 
-                val stream = ByteArrayOutputStream()
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)
-                val imageBytes = stream.toByteArray()
+                // Save bitmap to a temporary file
+                val tempFile = kotlin.io.path.createTempFile(suffix = ".jpg").toFile()
+                tempFile.outputStream().use { out ->
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 96, out)
+                }
 
-                val uploadResult = cloudinary.uploader().upload(imageBytes, ObjectUtils.emptyMap())
-                val imageUrl = uploadResult["secure_url"] as String
+                // Upload the file to Cloudinary
+                val uploadResult = cloudinary.uploader().upload(tempFile, ObjectUtils.asMap(
+                    "resource_type", "image"
+                ))
 
+                // Delete the temp file
+                tempFile.delete()
+
+                // Get the image URL from Cloudinary response
+                val imageUrl = uploadResult["secure_url"] as? String
+                if (imageUrl.isNullOrEmpty()) {
+                    _updateInfo.emit(Resource.Error("Image URL not returned from Cloudinary"))
+                    return@launch
+                }
+
+                // Save updated user info with new image URL
                 saveUserInformation(user.copy(imagePath = imageUrl), false)
 
             } catch (e: Exception) {
-                _updateInfo.emit(Resource.Error(e.message ?: "Image upload failed"))
+                e.printStackTrace()
+                _updateInfo.emit(Resource.Error("Cloudinary upload failed: ${e.message}"))
             }
         }
     }

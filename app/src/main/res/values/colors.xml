@@ -17,4 +17,7 @@
     <color name="g_gray500">#969899</color>
     <color name="g_orange_yellow">#F8BA00</color>
     <color name="g_purple">#4E2A84</color>
+    <color name="g_green">#07FF0C</color>
+
+
 </resources>
