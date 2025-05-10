@@ -36,12 +36,6 @@ class UserAccountFragment: Fragment() {
     private val viewModel by viewModels<UserAccountViewModel>()
     private lateinit var imageActivityResultLauncher: ActivityResultLauncher<Intent>
 
-    private val _resetPassword = MutableSharedFlow<Resource<String>>()
-    val resetPassword = _resetPassword.asSharedFlow()
-
-    private val _login = MutableSharedFlow<Resource<FirebaseUser>>()
-    val login = _login.asSharedFlow()
-
     private var imageUri: Uri? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {

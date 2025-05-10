@@ -43,6 +43,7 @@ android {
 
     buildFeatures{
         viewBinding = true
+        buildConfig = true
     }
 }
 
@@ -94,7 +95,6 @@ dependencies {
     //Cloudinary
     implementation("com.cloudinary:cloudinary-android:2.3.1")
 
-    // Stepper
 
 
 
