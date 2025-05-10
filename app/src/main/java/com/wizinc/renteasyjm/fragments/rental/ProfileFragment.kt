@@ -56,7 +56,7 @@ class ProfileFragment: Fragment()  {
         }
 
         binding.tvBilling.setOnClickListener {
-            val action = ProfileFragmentDirections.actionProfileFragmentToBillingFragment(0f, emptyArray(),payment = false)
+            val action = ProfileFragmentDirections.actionProfileFragmentToBillingFragment(0f, emptyArray(),false)
             findNavController().navigate(action)
 
         }

@@ -69,10 +69,10 @@ class BillingFragment : Fragment(){
 
         if (args.payment) {
             binding.apply {
-                buttonPlaceOrder.visibility = View.INVISIBLE
-                totalBoxContainer.visibility = View.INVISIBLE
-                middleLine.visibility = View.INVISIBLE
-                bottomLine.visibility = View.INVISIBLE
+                buttonPlaceOrder.visibility = View.VISIBLE
+                totalBoxContainer.visibility = View.VISIBLE
+                middleLine.visibility = View.VISIBLE
+                bottomLine.visibility = View.VISIBLE
             }
         }
 

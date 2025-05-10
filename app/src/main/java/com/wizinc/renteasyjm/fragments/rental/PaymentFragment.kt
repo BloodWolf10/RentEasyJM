@@ -75,7 +75,7 @@ class PaymentFragment: Fragment(R.layout.fragment_payment)  {
         }
 
         binding.buttonCheckout.setOnClickListener {
-           val action = PaymentFragmentDirections.actionPaymentFragmentToBillingFragment(totalPrice, cartAdapter.differ.currentList.toTypedArray(), payment = true)
+           val action = PaymentFragmentDirections.actionPaymentFragmentToBillingFragment(totalPrice, cartAdapter.differ.currentList.toTypedArray(),true)
             findNavController().navigate(action)
         }
 
