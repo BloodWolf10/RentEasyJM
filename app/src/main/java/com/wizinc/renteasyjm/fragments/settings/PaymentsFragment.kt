@@ -75,7 +75,14 @@ class PaymentsFragment : Fragment() {
 
                 }
             }
+
         }
+
+        downpaymentAdapter.onClick = {
+         val action = PaymentsFragmentDirections.actionPaymentsFragmentToPaymentDetailsFragment(it)
+            findNavController().navigate(action)
+        }
+
 
     }
 

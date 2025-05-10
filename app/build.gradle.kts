@@ -61,6 +61,7 @@ dependencies {
     implementation(libs.androidx.ui.test.android)
     implementation(libs.firebase.storage.ktx)
     implementation(libs.firebase.storage)
+    implementation(libs.androidx.material3.android)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -92,6 +93,10 @@ dependencies {
 
     //Cloudinary
     implementation("com.cloudinary:cloudinary-android:2.3.1")
+
+    // Stepper
+
+
 
 
 
