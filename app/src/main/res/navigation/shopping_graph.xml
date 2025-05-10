@@ -78,4 +78,9 @@
         android:name="com.wizinc.renteasyjm.fragments.settings.UserAccountFragment"
         android:label="UserAccountFragment"
         tools:layout="@layout/fragment_user_account"/>
+    <fragment
+        android:id="@+id/PaymentsFragment"
+        android:name="com.wizinc.renteasyjm.fragments.settings.PaymentsFragment"
+        android:label="PaymentsFragment"
+        tools:layout="@layout/fragment_payments"/>
 </navigation>
