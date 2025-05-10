@@ -67,6 +67,15 @@ class BillingFragment : Fragment(){
         setupAddressRv()
         setupBillingRentalsRv()
 
+        if (args.payment) {
+            binding.apply {
+                buttonPlaceOrder.visibility = View.INVISIBLE
+                totalBoxContainer.visibility = View.INVISIBLE
+                middleLine.visibility = View.INVISIBLE
+                bottomLine.visibility = View.INVISIBLE
+            }
+        }
+
         binding.imageCloseBilling.setOnClickListener() {
             findNavController().navigateUp()
         }

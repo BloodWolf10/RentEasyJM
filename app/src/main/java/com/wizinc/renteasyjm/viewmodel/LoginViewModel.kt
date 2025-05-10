@@ -7,61 +7,63 @@ import com.google.firebase.auth.FirebaseUser
 import com.wizinc.renteasyjm.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class LoginViewModel @Inject constructor(private val firebaseAuth: FirebaseAuth)
-    : ViewModel(){
+class LoginViewModel @Inject constructor(
+    private val firebaseAuth: FirebaseAuth
+) : ViewModel() {
 
-        private val _login = MutableSharedFlow<Resource<FirebaseUser>>()
-        val login = _login.asSharedFlow()
+    private val _login = MutableSharedFlow<Resource<FirebaseUser>>()
+    val login = _login.asSharedFlow()
 
-        private val _resetPassword = MutableSharedFlow<Resource<String>>()
-        val resetPassword = _resetPassword.asSharedFlow()
+    private val _resetPassword = MutableSharedFlow<Resource<String>>()
+    val resetPassword = _resetPassword.asSharedFlow()
 
-    fun login(email: String, password: String){
+    fun login(email: String, password: String) {
+        if (email.isBlank() || password.isBlank()) {
+            viewModelScope.launch {
+                _login.emit(Resource.Error("Email and password must not be empty."))
+            }
+            return
+        }
 
         viewModelScope.launch {
             _login.emit(Resource.Loading())
         }
+
         firebaseAuth.signInWithEmailAndPassword(email, password)
             .addOnSuccessListener {
-               viewModelScope.launch {
-                   it.user?.let {
-                       _login.emit(Resource.Success(it))
-                   }
-               }
-            }
-            .addOnFailureListener{
                 viewModelScope.launch {
-                    _login.emit(Resource.Error(it.message.toString()))
+                    it.user?.let { user ->
+                        _login.emit(Resource.Success(user))
+                    } ?: _login.emit(Resource.Error("Login failed: User is null."))
                 }
             }
-
+            .addOnFailureListener {
+                viewModelScope.launch {
+                    _login.emit(Resource.Error(it.message ?: "Login failed"))
+                }
+            }
     }
 
+    fun resetPassword(email: String) {
+        viewModelScope.launch {
+            _resetPassword.emit(Resource.Loading())
+        }
 
-    fun resetPassword(email: String){
-
-     viewModelScope.launch {
-         _resetPassword.emit(Resource.Loading())
-     }
-         firebaseAuth
-             .sendPasswordResetEmail(email)
-             .addOnSuccessListener {
-                 viewModelScope.launch {
-                     _resetPassword.emit(Resource.Success(email))
-                 }
-
-             }
-             .addOnFailureListener{
-                 viewModelScope.launch {
-                     _resetPassword.emit(Resource.Error(it.message.toString()))
-                 }
-             }
-     }
-
+        firebaseAuth.sendPasswordResetEmail(email)
+            .addOnSuccessListener {
+                viewModelScope.launch {
+                    _resetPassword.emit(Resource.Success(email))
+                }
+            }
+            .addOnFailureListener {
+                viewModelScope.launch {
+                    _resetPassword.emit(Resource.Error(it.message.toString()))
+                }
+            }
     }
+}
